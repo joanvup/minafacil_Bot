@@ -18,7 +18,7 @@ Luego editaremos el archivo minafacilbot.py
     $ sudo nano minafacilbot.py
 
 
- For example:
+ Por ejemplo:
 
     # -------------------- SETTINGS --------------------
     
