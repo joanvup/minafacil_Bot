@@ -4,11 +4,10 @@
 import json
 import telebot
 import requests
+from time import sleep
 from telebot import types
 
 # -------------------- SETTINGS --------------------
-# Your Raptoreum wallet.
-wallet = "RTVPRSvDcM1R8Xqf7Gn6XNNDzRiGkboBCG"
 
 # Telegram bot Token.
 token = "2145088618:AAGul0GOmx6XCcDzVuBwGX1us9EsDM7lkew"
@@ -18,6 +17,10 @@ id_admins = [1334636275]
 
 # Your Pool. 0 = Minafacil
 pool = 0
+
+# Tiempo en segundos de consulta
+tiempo_consulta = 30
+
 # --------------------------------------------------
 
 list_pools = ["http://pool.minafacil.com/api"]
@@ -40,7 +43,7 @@ def minafacil(id_user):
             reward = response_json["RTM"]["reward"]
             height = response_json["RTM"]["height"]
            
-            text_send = "BLOQUE BLOQUE BLOQUE \n\n" + "*Bloque :* ``` " + str(
+            text_send = "BLOQUE CONSEGUIDO \n\n" + "*Bloque :* ``` " + str(
                 last_block) + " ```\n" + "*Dificultad :* ``` " + str(
                 difficulty) + " ```\n" + "*Recompensa :* ``` " + str(
                 reward) + " ```\n" + "*Altura :* ``` " + str(
@@ -51,7 +54,7 @@ def minafacil(id_user):
             bot.send_message(chat_id=id_user, text=text_send, parse_mode="Markdown")
 
         except:
-            text_send = u"\u26A0 The wallet does not exist on " + web[pool]
+            text_send = u"\u26A0 Sin respuesta de " + web[pool]
             bot.send_message(chat_id=id_user, text=text_send, parse_mode="Markdown")
 
 # We check if the user has permission.
@@ -77,21 +80,30 @@ if __name__ == "__main__":
         permitted = check_admin(id_user)
 
         if (permitted == True):
-            name = message.chat.first_name
-            text_send = "Welcome " + name + "!!"
-            keyboard(id_user, text_send)
+            url = list_pools[pool] + "/currencies"
+            response = requests.get(url)
+            if response.status_code == 200:
+                response_json = response.json()
+                last_block_ini = response_json["RTM"]["lastblock"]
+                text_send = "*Iniciando busqueda de bloque* \n" + "*Ultimo Bloque :* ``` " + str(
+                last_block_ini) + " ```\n" 
+                bot.send_message(chat_id=id_user, text=text_send, parse_mode="Markdown")
+                #keyboard(id_user, text_send)
+            while 1:
+                sleep(tiempo_consulta)
+                response = requests.get(url)
+                if response.status_code == 200:
+                    response_json = response.json()
+                    last_block = response_json["RTM"]["lastblock"]
+                    if last_block != last_block_ini :
+                        minafacil(id_user)
+                    else:
+                        text_send = "nada aun " + str(last_block) + " - " + str(last_block_ini)
+                        bot.send_message(chat_id=id_user, text=text_send, parse_mode="Markdown")
 
-    # Other messages.
     @bot.message_handler()
     def main(message):
 
         id_user = message.chat.id
-        permitted = check_admin(id_user)
-
-        if (permitted == True):
-            text = message.text
-            # Mine button.
-            if text == "Mined":
-                minafacil(id_user)
 
     bot.polling(none_stop=True)
