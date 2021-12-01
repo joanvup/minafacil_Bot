@@ -27,7 +27,7 @@ list_pools = ["http://pool.minafacil.com/api"]
 web = ["https://pool.minafacil.com"]
 
 # View the wallet data on Ethermine.
-def minafacil(id_user):
+def bloque_encontrado(id_user):
     url = list_pools[pool] + "/currencies"
     response = requests.get(url)
 
@@ -96,11 +96,8 @@ if __name__ == "__main__":
                     response_json = response.json()
                     last_block = response_json["RTM"]["lastblock"]
                     if last_block != last_block_ini :
-                        minafacil(id_user)
-                    else:
-                        text_send = "nada aun " + str(last_block) + " - " + str(last_block_ini)
-                        bot.send_message(chat_id=id_user, text=text_send, parse_mode="Markdown")
-
+                        bloque_encontrado(id_user)
+                        
     @bot.message_handler()
     def main(message):
 
