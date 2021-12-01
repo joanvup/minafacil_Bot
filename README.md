@@ -22,16 +22,16 @@ Luego editaremos el archivo minafacilbot.py
 
  -------------------- SETTINGS --------------------
 
-## Telegram bot Token.
+### Telegram bot Token.
 token = "2145088618:AAGul0GOmx6XCcDzVuBwGX1us9EsDM7lkew"
 
-## List with the telegram id of the allowed users.
+### List with the telegram id of the allowed users.
 id_admins = [1334636275]
 
-## Your Pool. 0 = Minafacil
+### Your Pool. 0 = Minafacil
 pool = 0
 
-## Tiempo en segundos de consulta
+### Tiempo en segundos de consulta
 tiempo_consulta = 30
 
 list_pools = ["http://pool.minafacil.com/api"]
