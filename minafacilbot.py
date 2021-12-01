@@ -20,7 +20,7 @@ id_admins = [1334636275]
 pool = 0
 # --------------------------------------------------
 
-list_pools = ["http://pool.minafacil.com/site/api"]
+list_pools = ["http://pool.minafacil.com/api"]
 web = ["https://pool.minafacil.com"]
 
 # View the wallet data on Ethermine.
