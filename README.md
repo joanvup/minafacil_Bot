@@ -18,19 +18,28 @@ Luego editaremos el archivo minafacilbot.py
     $ sudo nano minafacilbot.py
 
 
- por ejemplo:
+ For example:
 
- -------------------- SETTINGS --------------------
+    # -------------------- SETTINGS --------------------
+    
+    
+    # Telegram bot Token.
+    token = "378572660:AAHaLn4NylzJuv4kl4XusEtG3LeDqafjA75"
+    
+    # List with the telegram id of the allowed users.
+    id_admins = [1334636275]
+    
+    # Your Pool. 0 = Minafacil
+    pool = 0
+    
+    # Tiempo en segundos de consulta
+    tiempo_consulta = 30
+    
+    list_pools = ["http://pool.minafacil.com/api"]
+    web = ["https://pool.minafacil.com"]
+    # --------------------------------------------------
 
-token = "2145088618:AAGul0GOmx6XCcDzVuBwGX1us9EsDM7lkew"
-id_admins = [1334636275]
-pool = 0
-tiempo_consulta = 30
 
-list_pools = ["http://pool.minafacil.com/api"]
-web = ["https://pool.minafacil.com"]
-----------------------------------------------------
+Finalmente ejecutamos el script y podemos ir a nuestro bot de Telegram y ponerlo en marcha:
 
-Finalmente ejecutamos el script y podemos ir a nuestro bot de Telegram e iniciarlo y esperar por e mensaje de BLOQUE CONSEGUIDO
-
-    $ sudo python ethbot.py
+    $ sudo python minafacilbot.py
