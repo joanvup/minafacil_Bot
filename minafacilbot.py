@@ -97,6 +97,7 @@ if __name__ == "__main__":
                     last_block = response_json["RTM"]["lastblock"]
                     if last_block != last_block_ini :
                         bloque_encontrado(id_user)
+                        last_block_ini = last_block
                         
     @bot.message_handler()
     def main(message):
