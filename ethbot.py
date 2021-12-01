@@ -40,7 +40,7 @@ def minafacil(id_user):
             reward = response_json["data"]["reward"]
             height = response_json["data"]["height"]
            
-            text_send = "BLOQUE BLOQUE BLOQUE \n\n" +
+            text_send = "BLOQUE BLOQUE BLOQUE \n\n" + ""
             "*Bloque :* ``` " + str(last_block) + " ```\n" + 
             "*Dificultad :* ``` " + str(difficulty) + " ```\n" + 
             "*Recompensa :* ``` " + str(reward) + " ```\n" +
