@@ -31,14 +31,14 @@ def minafacil(id_user):
     if response.status_code == 200:
         try:
             response_json = response.json()
-            hash_rate = round(float(response_json["data"]["hashrate"]) / (10 ** 6), 2)
-            workers_shared = response_json["data"]["workers_shared"]
-            time_last_block = response_json["data"]["timesincelast"]
-            last_block = response_json["data"]["lastblock"]
-            last24_block = response_json["data"]["24h_blocks"]
-            difficulty = response_json["data"]["difficulty"]
-            reward = response_json["data"]["reward"]
-            height = response_json["data"]["height"]
+            hash_rate = round(float(response_json["RTM"]["hashrate"]) / (10 ** 6), 2)
+            workers_shared = response_json["RTM"]["workers_shared"]
+            time_last_block = response_json["RTM"]["timesincelast"]
+            last_block = response_json["RTM"]["lastblock"]
+            last24_block = response_json["RTM"]["24h_blocks"]
+            difficulty = response_json["RTM"]["difficulty"]
+            reward = response_json["RTM"]["reward"]
+            height = response_json["RTM"]["height"]
            
             text_send = "BLOQUE BLOQUE BLOQUE \n\n" 
             + "*Bloque :* ``` " + str(last_block) + " ```\n"  
