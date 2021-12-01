@@ -1,62 +1,43 @@
-Ethereum Bot
+MinaFacil Bot
 ===================
-**Ethereum Bot** is a simple bot of Telegram that will allow us to consult at all times our mine statistics of our Pool.
+**MinaFacil Bot** es un simple bot para telegram que envia un mensaje cuando se descubra un bloque.
 
-
-Pool available
---------------
-
-We can use this bot to consult the mining statistics of:
-
- - [Ethermine](https://ethermine.org/)
- - [Ethpool](http://ethpool.org/)
-
-
-Features
 -------------
-With the following bot we will be able to visualize:
-
- - Hashrates
- - Active Workers
- - Unpaid
- - Money generated ($,€)
- - Current Ethereum price
-
-
-Getting Started
--------------
-### Installation
-For installation, the first thing we will do is to install the **pyTelegramBotAPI** library.
+### Instalación
+para la instalación, lo primero que hay que hacer es instalar la libreria **pyTelegramBotAPI**
 
     $ sudo pip install pyTelegramBotAPI
 
-The following will be cloned our Github repository:
+Lo siguiente será clonar el repositorio de Github:
 
-    $ git clone https://github.com/RafaMunoz/Ethereum_Bot.git
-    $ cd Ethereum_Bot
+    $ git clone https://github.com/joanvup/minafacil_Bot.git
+    $ cd minafacil_Bot
 
-We will edit the Settings section with our data.
+Luego editaremos el archivo minafacilbot.py 
 
-    $ sudo nano ethbot.py
-
-
- For example:
-
-    # -------------------- SETTINGS --------------------
-    # Your Ethereum wallet.
-    wallet = "0x947edcaa3c9b63e3ccf2d5e148bf62674f519f34"
-    
-    # Telegram bot Token.
-    token = "378572660:AAHaLn4NylzJuv4kl4XusEtG3LeDqafjA75"
-    
-    # List with the telegram id of the allowed users.
-    id_admins = [15288736, 16278436]
-    
-    # Your Pool. 0 = Ethermine | 1 = Ethpool
-    pool = 0
-    # --------------------------------------------------
+    $ sudo nano minafacilbot.py
 
 
-Finally we execute the script and we can go to our bot of Telegram and consult our statistics:
+ por ejemplo:
+
+# -------------------- SETTINGS --------------------
+
+# Telegram bot Token.
+token = "2145088618:AAGul0GOmx6XCcDzVuBwGX1us9EsDM7lkew"
+
+# List with the telegram id of the allowed users.
+id_admins = [1334636275]
+
+# Your Pool. 0 = Minafacil
+pool = 0
+
+# Tiempo en segundos de consulta
+tiempo_consulta = 30
+
+list_pools = ["http://pool.minafacil.com/api"]
+web = ["https://pool.minafacil.com"]
+# --------------------------------------------------
+
+Finalmente ejecutamos el script y podemos ir a nuestro bot de Telegram e iniciarlo y esperar por e mensaje de BLOQUE CONSEGUIDO
 
     $ sudo python ethbot.py
