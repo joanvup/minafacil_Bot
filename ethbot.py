@@ -31,68 +31,33 @@ def minafacil(id_user):
     if response.status_code == 200:
         try:
             response_json = response.json()
-            hash_rate = round(float(response_json["data"]["reportedHashrate"]) / (10 ** 6), 2)
-            active_workers = response_json["data"]["activeWorkers"]
-            unpaid = round(float(response_json["data"]["unpaid"]) / (10 ** 18), 5)
-
-            prices = cryptocompare(id_user, 1)
-
-            generate_euro = round(float(prices[0]) * unpaid, 2)
-            generate_dolar = round(float(prices[1]) * unpaid, 2)
-            generate = "*Generate:* ``` " + u"\u20AC " + str(generate_euro) + " = " + u"\u0024 " + str(
-                generate_dolar) + "```"
-
-            text_send = "*Hashrates:* ``` " + str(
-                hash_rate) + " MH/s```\n" + "*Active Workers:* ```" + str(
-                active_workers) + "```\n" + "*Unpaid:* ``` " + str(unpaid) + " ETH```\n" + generate
+            hash_rate = round(float(response_json["data"]["hashrate"]) / (10 ** 6), 2)
+            workers_shared = response_json["data"]["workers_shared"]
+            time_last_block = response_json["data"]["timesincelast"]
+            last_block = response_json["data"]["lastblock"]
+            last24_block = response_json["data"]["24h_blocks"]
+            difficulty = response_json["data"]["difficulty"]
+            reward = response_json["data"]["reward"]
+            height = response_json["data"]["height"]
+           
+            text_send = "BLOQUE BLOQUE BLOQUE \n\n" +
+            "*Bloque :* ``` " + str(last_block) + " ```\n" + 
+            "*Dificultad :* ``` " + str(difficulty) + " ```\n" + 
+            "*Recompensa :* ``` " + str(reward) + " ```\n" +
+            "*Altura :* ``` " + str(height) + " ```\n" +
+            "*Hashrate:* ``` " + str(hash_rate) + " MH/s```\n" + 
+            "*Mineros Activos:* ```" + str(workers_shared) + "```\n" + 
+            "*# de bloques en 24h:* ```" + str(last24_block) + "```\n" + 
             bot.send_message(chat_id=id_user, text=text_send, parse_mode="Markdown")
 
         except:
             text_send = u"\u26A0 The wallet does not exist on " + web[pool]
             bot.send_message(chat_id=id_user, text=text_send, parse_mode="Markdown")
 
-
-# Consult current price of Ethereum.
-def cryptocompare(id_user, control):
-    url = "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD,EUR"
-    response = requests.get(url)
-    if response.status_code == 200:
-        response_json = response.json()
-        price_euro = response_json["DISPLAY"]["ETH"]["EUR"]["PRICE"]
-        change_euro = response_json["DISPLAY"]["ETH"]["EUR"]["CHANGEPCT24HOUR"]
-        price_dolar = response_json["DISPLAY"]["ETH"]["USD"]["PRICE"]
-        change_dolar = response_json["DISPLAY"]["ETH"]["USD"]["CHANGEPCT24HOUR"]
-
-    if control == 0:
-        if float(change_euro) > 0:
-            emoji_euro = u"\U0001F53A"
-
-        else:
-            emoji_euro = u"\U0001F53B"
-
-        if float(change_dolar) > 0:
-            emoji_dolar = u"\U0001F53A"
-
-        else:
-            emoji_dolar = u"\U0001F53B"
-
-        euro = "``` " + price_euro + "  " + emoji_euro + change_euro + "%\n```"
-        dolar = "``` " + price_dolar + "  " + emoji_dolar + change_dolar + "%```"
-        text_send = "*Ethereum - ETH*\n" + euro + dolar
-        bot.send_message(chat_id=id_user, text=text_send, parse_mode="Markdown")
-
-    else:
-        price_euro = float(price_euro.replace(u"\u20AC ", ""))
-        price_dolar = float(price_dolar.replace(u"\u0024 ", ""))
-
-        return [price_euro, price_dolar]
-
-
 # We check if the user has permission.
 def check_admin(id_user):
     check = id_user in id_admins
     return check
-
 
 # Keyboard Telegram Bot
 def keyboard(chat_id, textoEnvio):
@@ -116,7 +81,6 @@ if __name__ == "__main__":
             name = message.chat.first_name
             text_send = "Welcome " + name + "!!"
             keyboard(id_user, text_send)
-
 
     # Other messages.
     @bot.message_handler()
