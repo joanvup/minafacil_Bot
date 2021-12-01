@@ -6,30 +6,26 @@ import telebot
 import requests
 from telebot import types
 
-
 # -------------------- SETTINGS --------------------
-# Your Ethereum wallet.
-wallet = "0x947edcaa3c9b63e3ccf2d5e148bf62674f519f34"
+# Your Raptoreum wallet.
+wallet = "RTVPRSvDcM1R8Xqf7Gn6XNNDzRiGkboBCG"
 
 # Telegram bot Token.
-token = "378572660:AAHaLn4NylzJuv4kl4XusEtG3LeDqafjA75"
+token = "2145088618:AAGul0GOmx6XCcDzVuBwGX1us9EsDM7lkew"
 
 # List with the telegram id of the allowed users.
-id_admins = [15288736, 16278436]
+id_admins = [1334636275]
 
-# Your Pool. 0 = Ethermine | 1 = Ethpool
+# Your Pool. 0 = Minafacil
 pool = 0
 # --------------------------------------------------
 
-
-
-
-list_pools = ["https://api.ethermine.org", "http://api.ethpool.org"]
-web = ["https://ethermine.org", "https://eth.nanopool.org"]
+list_pools = ["http://pool.minafacil.com/site/api"]
+web = ["https://pool.minafacil.com"]
 
 # View the wallet data on Ethermine.
-def ethermine(id_user):
-    url = list_pools[pool] + "/miner/" + wallet + "/currentStats"
+def minafacil(id_user):
+    url = list_pools[pool] + "/currencies"
     response = requests.get(url)
 
     if response.status_code == 200:
