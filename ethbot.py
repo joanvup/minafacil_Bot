@@ -61,7 +61,7 @@ def check_admin(id_user):
 
 # Keyboard Telegram Bot
 def keyboard(chat_id, textoEnvio):
-    r1 = ["Mined", "Price"]
+    r1 = ["Mined"]
     keyboard = [r1]
     news_keyboard = {'keyboard': keyboard, 'resize_keyboard': True}
     bot.send_message(chat_id, textoEnvio, None, None, json.dumps(news_keyboard))
@@ -69,7 +69,6 @@ def keyboard(chat_id, textoEnvio):
 
 if __name__ == "__main__":
     bot = telebot.TeleBot(token)
-
 
     # Welcome message.
     @bot.message_handler(commands=['start'])
@@ -91,14 +90,8 @@ if __name__ == "__main__":
 
         if (permitted == True):
             text = message.text
-
             # Mine button.
             if text == "Mined":
-                ethermine(id_user)
-
-            # Price button.
-            if text == "Price":
-                cryptocompare(id_user, 0)
-
+                minafacil(id_user)
 
     bot.polling(none_stop=True)
