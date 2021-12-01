@@ -40,14 +40,14 @@ def minafacil(id_user):
             reward = response_json["RTM"]["reward"]
             height = response_json["RTM"]["height"]
            
-            text_send = "BLOQUE BLOQUE BLOQUE \n\n" 
-            + "*Bloque :* ``` " + str(last_block) + " ```\n"  
-            + "*Dificultad :* ``` " + str(difficulty) + " ```\n" 
-            + "*Recompensa :* ``` " + str(reward) + " ```\n" 
-            + "*Altura :* ``` " + str(height) + " ```\n" 
-            + "*Hashrate:* ``` " + str(hash_rate) + " MH/s```\n" 
-            + "*Mineros Activos:* ```" + str(workers_shared) + "```\n" 
-            + "*# de bloques en 24h:* ```" + str(last24_block) + "```\n" 
+            text_send = "BLOQUE BLOQUE BLOQUE \n\n" + "*Bloque :* ``` " + str(
+                last_block) + " ```\n" + "*Dificultad :* ``` " + str(
+                difficulty) + " ```\n" + "*Recompensa :* ``` " + str(
+                reward) + " ```\n" + "*Altura :* ``` " + str(
+                height) + " ```\n" + "*Hashrate:* ``` " + str(
+                hash_rate) + " MH/s```\n" + "*Mineros Activos:* ```" + str(
+                workers_shared) + "```\n" + "*# de bloques en 24h:* ```" + str(
+                last24_block) + "```\n" 
             bot.send_message(chat_id=id_user, text=text_send, parse_mode="Markdown")
 
         except:
