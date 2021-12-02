@@ -13,16 +13,15 @@ from telebot import types
 token = "2145088618:AAGnOYyZ_OrBJhZClJzUwe4JdnaaCPUhLxo"
 
 # List with the telegram id of the allowed users.
-id_admins = [1334636275]
+id_admins = [-1001683264230]
 
 # Your Pool. 0 = Minafacil
 pool = 0
 
 # Tiempo en segundos de consulta
-tiempo_consulta = 30
+tiempo_consulta = 60
 
 # --------------------------------------------------
-
 
 list_pools = ["http://pool.minafacil.com/api"]
 web = ["https://pool.minafacil.com"]
@@ -137,7 +136,7 @@ def bloque_encontrado(id_user):
             reward = response_json["RTM"]["reward"]
             height = response_json["RTM"]["height"]
            
-            text_send = "BLOQUE CONSEGUIDO \n\n" + "*Bloque :* ``` " + str(
+            text_send = "\U0001F4A5 *BLOQUE CONSEGUIDO* \U0001F4A5 \n \U0001F4B0 \U0001F4B0 \U0001F4B0 \U0001F4B2 \U0001F4B2 \U0001F4B2 \U0001F4B2 \U0001F60A \U0001F60A \U0001F60A\n" + "*Bloque :* ``` " + str(
                 last_block) + " ```\n" + "*Dificultad :* ``` " + str(
                 difficulty) + " ```\n" + "*Recompensa :* ``` " + str(
                 reward) + " ```\n" + "*Altura :* ``` " + str(
@@ -146,6 +145,7 @@ def bloque_encontrado(id_user):
                 workers_shared) + "```\n" + "*# de bloques en 24h:* ```" + str(
                 last24_block) + "```\n" 
             bot.send_message(chat_id=id_user, text=text_send, parse_mode="Markdown")
+            print(text_send)
 
         except:
             text_send = u"\u26A0 Sin respuesta de " + web[pool]
@@ -165,36 +165,51 @@ def keyboard(chat_id, textoEnvio):
 
 
 if __name__ == "__main__":
-    bot = telebot.TeleBot(token)
 
+    print('Iniciando script bot minafacil\n')
+    print('-----------------------------------------------------------\n')
+    print('Token : ' + token + '\n')
+    print('id_admins : '+ str(id_admins[0]) + '\n')
+    print('Intervalo de consulta : '+ str(tiempo_consulta) +'\n')
+    print('Pools : ' + str(list_pools) + '\n')
+    print('-----------------------------------------------------------\n\n')
+    print('Esperando mensaje start...\n')
+    bot = telebot.TeleBot(token)
     # Welcome message.
     @bot.message_handler(commands=['start'])
     def send_welcome(message):
-        id_user = message.chat.id
-        permitted = check_admin(id_user)
-
-        if (permitted == True):
-            url = list_pools[pool] + "/currencies"
+      print('mensaje start Recibido. Validando usuario...\n')
+      id_user = message.chat.id
+      permitted = check_admin(id_user)
+      if (permitted == True):
+        print('Usuario ' + str(id_user) + ' Validado. Consultando API ' + str(list_pools) + '...\n')
+        url = list_pools[pool] + "/currencies"
+        response = requests.get(url)
+        if response.status_code == 200:
+          response_json = response.json()
+          last_block_ini = response_json["RTM"]["lastblock"]
+          text_send = "\U0001F50E *Iniciando busqueda de bloque* \U0001F50D \n" + "*Ultimo Bloque :* ``` " + str(last_block_ini) + " ```\n"
+          print('Iniciando busqueda de bloque \n' + ' Ultimo Bloque : ' + str(last_block_ini) + '\n')
+          bot.send_message(chat_id=id_user, text=text_send, parse_mode="Markdown")
+          while 1:
+            sleep(tiempo_consulta)
+            print('Consultando API. Ultimo Bloque : ' + str(last_block_ini) + '\n')
             response = requests.get(url)
             if response.status_code == 200:
-                response_json = response.json()
-                last_block_ini = response_json["RTM"]["lastblock"]
-                text_send = "*Iniciando busqueda de bloque* \n" + "*Ultimo Bloque :* ``` " + str(
-                last_block_ini) + " ```\n" 
-                bot.send_message(chat_id=id_user, text=text_send, parse_mode="Markdown")
-                #text_send = ''
-                #keyboard(id_user, text_send)
-            while 1:
-                sleep(tiempo_consulta)
-                response = requests.get(url)
-                if response.status_code == 200:
-                    response_json = response.json()
-                    last_block = response_json["RTM"]["lastblock"]
-                    if last_block != last_block_ini :
-                        bloque_encontrado(id_user)
-                        last_block_ini = last_block
-                    
-                        
+              response_json = response.json()
+              last_block = response_json["RTM"]["lastblock"]
+              print(' comparando bloque actual con ult. bloque (' + str(last_block)+ ', ' + str(last_block_ini) + ')\n')
+              if last_block != last_block_ini :
+                bloque_encontrado(id_user)
+                last_block_ini = last_block
+              else:
+                print('No encontrado. Ultimo bloque '+ str(last_block) + ' - sigue la busqueda...\n')
+            else:
+              print('No hubo respuesta de ' + str(list_pools) + '\n')
+        else:
+          print('No hubo respuesta de ' + str(list_pools) + '\n')
+      else:
+            print('Usuario ' + str(id_user) + ' No autorizado.\n')
     @bot.message_handler()
     def main(message):
         id_user = message.chat.id
@@ -203,21 +218,22 @@ if __name__ == "__main__":
 
         if (permitted == True):
             text = message.text
-            if text.find('=') > 0 :
-                text1 = text.split('=')
-                comando = text1[0]
-                parametro1 = text1[1]
-            else:
-                comando = text
-                parametro1 = ""
+            print('Mensaje recibido : ' + str(text) + ' Validando comandos...')
+           # if text.find('=') > 0 :
+           #     text1 = text.split('=')
+           #     comando = text1[0]
+           #     parametro1 = text1[1]
+           # else:
+           #     comando = text
+           #     parametro1 = ""
             # Mine button.
-            if comando == "Pool":
-                estado_pool(id_user)
+           # if comando == "Pool":
+               # estado_pool(id_user)
 
-            if comando == "Wallet":
-                estado_wallet(id_user, parametro1)
+           # if comando == "Wallet":
+               # estado_wallet(id_user, parametro1)
 
-            if comando == "Bloque":
-                bloque_info(id_user)
+           # if comando == "Bloque":
+               # bloque_info(id_user)
 
     bot.polling(none_stop=True)
