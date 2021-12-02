@@ -10,7 +10,7 @@ from telebot import types
 # -------------------- SETTINGS --------------------
 
 # Telegram bot Token.
-token = "2145088618:AAGul0GOmx6XCcDzVuBwGX1us9EsDM7lkew"
+token = "2145088618:AAGnOYyZ_OrBJhZClJzUwe4JdnaaCPUhLxo"
 
 # List with the telegram id of the allowed users.
 id_admins = [1334636275]
