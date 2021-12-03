@@ -10,10 +10,10 @@ from telebot import types
 # -------------------- SETTINGS --------------------
 
 # Telegram bot Token.
-token = "2145088618:AAGnOYyZ_OrBJhZClJzUwe4JdnaaCPUhLxo"
+token = "2145088618:AAGnOYyZ_OrBdfreClJzUwe4JdnaaCPUhLxo"
 
 # List with the telegram id of the allowed users.
-id_admins = [-1001683264230]
+id_admins = [-100168323453230]
 
 # Your Pool. 0 = Minafacil
 pool = 0
